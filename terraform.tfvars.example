@@ -1,0 +1,222 @@
+virtual_machines = {
+  linux = {
+    additional_capabilities = {
+      ultra_ssd_enabled = false
+    }
+    additional_unattend_content = {
+      content = ""
+      setting = "AutoLogon"
+    }
+    admin_password = "password"
+    admin_ssh_key = {
+      public_key = <<-EOT
+                    ssH_public_key
+                EOT
+      username   = "username"
+    }
+    admin_username             = "username"
+    allow_extension_operations = true
+    availability_set           = "false"
+    boot_diagnostics = {
+      storage_account_uri = "storage account uri or null"
+    }
+    capacity_reservation_group_id   = null
+    computer_name                   = "computer name"
+    custom_data                     = null
+    dedicated_host_group_id         = null
+    dedicated_host_id               = null
+    disable_password_authentication = true
+    edge_zone                       = null
+    enable_automatic_updates        = null
+    encryption_at_host_enabled      = false
+    eviction_policy                 = null
+    extensions_time_budget          = "PT1H30M"
+    gallery_application = {
+      configuration_blob_uri = null
+      order                  = 0
+      tag                    = null
+      version_id             = null
+    }
+    hotpatching_enabled = null
+    identity = {
+      identity_ids = []
+      type         = "SystemAssigned"
+    }
+    license_type     = ""
+    location         = "location"
+    max_bid_price    = null
+    name             = "vm name"
+    network_adapter  = "nic name"
+    operating_system = "linux"
+    os_disk = {
+      caching = "ReadWrite"
+      diff_disk_settings = {
+        option    = null
+        placement = null
+      }
+      disk_encryption_set_id           = null
+      disk_size_gb                     = 127
+      name                             = "os disk name"
+      secure_vm_disk_encryption_set_id = null
+      security_encryption_type         = "VMGuestStateOnly"
+      storage_account_type             = "StandardSSD_LRS"
+      write_accelerator_enabled        = false
+    }
+    patch_assessment_mode = "ImageDefault"
+    patch_mode            = "ImageDefault"
+    plan = {
+      name      = null
+      product   = null
+      publisher = null
+    }
+    platform_fault_domain        = null
+    priority                     = "Regular"
+    private_ip_address           = "Dynamic"
+    provision_vm_agent           = true
+    proximity_placement_group_id = null
+    public_ip_address            = "public ip resource id or null"
+    resource_group_name          = "resource group name"
+    secret = {
+      certificate = {
+        store = null
+        url   = null
+      }
+      key_vault_id = null
+    }
+    secure_boot_enabled = false
+    size                = "sku"
+    source_image_id     = null
+    source_image_reference = {
+      offer     = "0001-com-ubuntu-server-jammy"
+      publisher = "Canonical"
+      sku       = "22_04-lts"
+      version   = "Latest"
+    }
+    subnet = "subnet resource id"
+    tags = {
+      key = "value"
+    }
+    termination_notification = {
+      enabled = false
+      timeout = "PT5M"
+    }
+    timezone                     = null
+    user_data                    = null
+    virtual_machine_scale_set_id = null
+    vtpm_enabled                 = false
+    winrm_listener = {
+      certificate_url = null
+      protocol        = "Https"
+    }
+    zone = "1"
+  }
+  windows = {
+    additional_capabilities = {
+      ultra_ssd_enabled = false
+    }
+    additional_unattend_content = {
+      content = ""
+      setting = "AutoLogon"
+    }
+    admin_password = "password"
+    admin_ssh_key = {
+      public_key = null
+      username   = null
+    }
+    admin_username             = "username"
+    allow_extension_operations = true
+    availability_set           = "false"
+    boot_diagnostics = {
+      storage_account_uri = null
+    }
+    capacity_reservation_group_id   = null
+    computer_name                   = "computer name"
+    custom_data                     = null
+    dedicated_host_group_id         = null
+    dedicated_host_id               = null
+    disable_password_authentication = null
+    edge_zone                       = null
+    enable_automatic_updates        = true
+    encryption_at_host_enabled      = false
+    eviction_policy                 = null
+    extensions_time_budget          = "PT1H30M"
+    gallery_application = {
+      configuration_blob_uri = null
+      order                  = 0
+      tag                    = null
+      version_id             = null
+    }
+    hotpatching_enabled = false
+    identity = {
+      identity_ids = []
+      type         = "SystemAssigned"
+    }
+    license_type     = "None"
+    location         = "location"
+    max_bid_price    = null
+    name             = "vm name"
+    network_adapter  = "nic name"
+    operating_system = "windows"
+    os_disk = {
+      caching = "ReadWrite"
+      diff_disk_settings = {
+        option    = null
+        placement = null
+      }
+      disk_encryption_set_id           = null
+      disk_size_gb                     = 127
+      name                             = "os disk name"
+      secure_vm_disk_encryption_set_id = null
+      security_encryption_type         = "VMGuestStateOnly"
+      storage_account_type             = "StandardSSD_LRS"
+      write_accelerator_enabled        = false
+    }
+    patch_assessment_mode = "ImageDefault"
+    patch_mode            = "AutomaticByOS"
+    plan = {
+      name      = null
+      product   = null
+      publisher = null
+    }
+    platform_fault_domain        = null
+    priority                     = "Regular"
+    private_ip_address           = "Dynamic"
+    provision_vm_agent           = true
+    proximity_placement_group_id = null
+    public_ip_address            = ""
+    resource_group_name          = "resource group name"
+    secret = {
+      certificate = {
+        store = null
+        url   = null
+      }
+      key_vault_id = null
+    }
+    secure_boot_enabled = false
+    size                = "sku"
+    source_image_id     = null
+    source_image_reference = {
+      offer     = "WindowsServer"
+      publisher = "MicrosoftWindowsServer"
+      sku       = "2019-Datacenter"
+      version   = "Latest"
+    }
+    subnet = "subnet resource id"
+    tags = {
+      key = "value"
+    }
+    termination_notification = {
+      enabled = false
+      timeout = "PT5M"
+    }
+    timezone                     = "GMT Standard Time"
+    user_data                    = null
+    virtual_machine_scale_set_id = null
+    vtpm_enabled                 = false
+    winrm_listener = {
+      certificate_url = null
+      protocol        = "Https"
+    }
+    zone = "1"
+  }
+}
