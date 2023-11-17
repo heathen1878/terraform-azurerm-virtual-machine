@@ -1,111 +1,165 @@
-variable "virtual_machines" {
-  description = "A map of virtual machines to create"
+variable "name" {
+  description = "Virtual machine name"
+  type        = string
+}
+
+variable "resource_group_name" {
+  description = "The resource group where the virtual machine will reside"
+  type        = string
+}
+
+variable "location" {
+  description = "The location where the virtual machine will reside"
+  type        = string
+}
+
+variable "admin_password" {
+  description = "The administrator password for the virtual machine - for Linux VMs disable_password_authentication must be false"
+  default     = null
+  type        = string
+}
+
+variable "admin_ssh_key" {
+  description = "One or more SSH keys to use for authentication - if set admin_password must not be"
   default     = {}
-  type = map(object({
-    additional_capabilities = object({
-      ultra_ssd_enabled = bool
-    })
-    additional_unattend_content = object({
-      content = string
-      setting = string
-    })
-    admin_password = string
-    admin_ssh_key = object({
+  type = map(object(
+    {
       public_key = string
       username   = string
-    })
-    admin_username             = string
-    allow_extension_operations = bool
-    availability_set           = string
-    boot_diagnostics = object({
-      storage_account_uri = string
-    })
-    capacity_reservation_group_id   = string
-    computer_name                   = string
-    custom_data                     = string
-    dedicated_host_id               = string
-    dedicated_host_group_id         = string
-    disable_password_authentication = bool
-    edge_zone                       = string
-    enable_automatic_updates        = bool
-    encryption_at_host_enabled      = bool
-    eviction_policy                 = string
-    extensions_time_budget          = string
-    gallery_application = object({
-      version_id             = string
-      configuration_blob_uri = string
-      order                  = number
-      tag                    = string
-    })
-    hotpatching_enabled = bool
-    identity = object({
-      type         = string
-      identity_ids = list(string)
-    })
-    license_type     = string
-    location         = string
-    max_bid_price    = string
-    name             = string
-    network_adapter  = string
-    operating_system = string
-    os_disk = object({
+    }
+  ))
+}
+
+variable "admin_username" {
+  description = "The administrator username"
+  type        = string
+}
+
+variable "availability_set" {
+  description = "Should the virtual machine be part of an availability set?"
+  default     = false
+  type        = bool
+}
+
+variable "availability_set_name" {
+  description = "Should the virtual machine be part of an availability set?"
+  default     = null
+  type        = string
+}
+
+variable "computer_name" {
+  description = "The computer name of the virtual machine"
+  type        = string
+}
+
+
+variable "disable_password_authentication" {
+  description = "Must be false if using Linux with an admin password set"
+  default     = true
+  type        = bool
+}
+
+variable "license_type" {
+  description = "The type of licence...Windows_client or Windows_Server for Windows or RHEL_BYOS or SLES_BYOS - alternatively use null for Linux and None for Windows"
+  default     = null
+  type        = string
+}
+
+variable "network_adapter_name" {
+  description = "The name of the network adapter to assign to this virtual machine"
+  type        = string
+}
+
+variable "operating_system" {
+  description = "Windows or Linux virtual machine?"
+  default = "Linux"
+  type = string
+  validation {
+    condition = contains(
+      [
+        "Windows",
+        "Linux"
+      ],
+      var.operating_system
+    )
+    error_message = "The Operating System must be either Windows or Linux - Linux is the default"
+  }
+}
+
+variable "tags" {
+  description = "A map of tags to assign to the resources in this module"
+  default     = {}
+  type        = map(any)
+}
+
+variable "os_disk" {
+  description = "An object of OS disk configuration"
+  default = {
+    caching              = "ReadWrite"
+    storage_account_type = "StandardSSD_LRS"
+  }
+  type = object(
+    {
       caching              = string
       storage_account_type = string
-      diff_disk_settings = object({
-        option    = string
-        placement = string
-      })
-      disk_encryption_set_id           = string
-      disk_size_gb                     = number
-      name                             = string
-      secure_vm_disk_encryption_set_id = string
-      security_encryption_type         = string
-      write_accelerator_enabled        = bool
-    })
-    patch_assessment_mode = string
-    patch_mode            = string
-    plan = object({
-      name      = string
-      product   = string
-      publisher = string
-    })
-    platform_fault_domain        = string
-    priority                     = string
-    private_ip_address           = string
-    provision_vm_agent           = bool
-    proximity_placement_group_id = string
-    public_ip_address            = string
-    resource_group_name          = string
-    secret = object({
-      certificate = object({
-        store = string
-        url   = string
-      })
-      key_vault_id = string
-    })
-    secure_boot_enabled = bool
-    size                = string
-    source_image_id     = string
-    source_image_reference = object({
+      name                 = optional(string)
+    }
+  )
+}
+
+variable "private_ip_address_allocation" {
+  description = "Should the virtual machines private IP address be statically or dynamically defined?"
+  default     = "Dynamic"
+  type        = string
+  validation {
+    condition = contains(
+      [
+        "Dynamic",
+        "Static"
+      ],
+      var.private_ip_address_allocation
+    )
+    error_message = "IP allocation method must be either Dynamic or Static"
+  }
+}
+
+variable "private_ip_address" {
+  description = "The IP Address if the allocation is static"
+  default     = null
+  type        = string
+}
+
+variable "public_ip_address_id" {
+  description = "The resource ID of the public IP address the virtual machine should use"
+  default     = null
+  type        = string
+}
+
+variable "size" {
+  description = "The hardware SKU of the virtual machine"
+  default     = "Standard_B2ms"
+  type        = string
+}
+
+variable "source_image_reference" {
+  description = "An object of the image to build the virtual machine from"
+  default = {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts"
+    version   = "Latest"
+  }
+  type = object(
+    {
       publisher = string
       offer     = string
       sku       = string
       version   = string
-    })
-    subnet = string
-    tags   = map(any)
-    termination_notification = object({
-      enabled = bool
-      timeout = string
-    })
-    timezone                     = string
-    user_data                    = string
-    virtual_machine_scale_set_id = string
-    vtpm_enabled                 = bool
-    winrm_listener = object({
-      protocol        = string
-      certificate_url = string
-    })
-    zone = string
-  }))
+    }
+  )
+}
+
+variable "subnet_id" {
+  description = "The subnet resource ID the virtual machine should connect to"
+  type        = string
 }
